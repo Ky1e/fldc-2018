@@ -33,10 +33,3 @@ dependencies:
 test:
   override:
     - ls
-
-
-deployment:
-  pantheon:
-    branch: /.*/
-    commands:
-      - ./bin/deploy_to_pantheon.sh
