@@ -1,0 +1,35 @@
+machine:
+  timezone:
+    America/Chicago
+
+  node:
+    version: 4.4.7
+
+  php:
+      version: 7.0.4
+
+  environment:
+    PATH: "${PATH}:${HOME}/terminus/bin"
+
+dependencies:
+  cache_directories:
+    - ~/node_modules
+    - /home/ubuntu/nvm/versions/node/4.4.7/bin
+    - /home/ubuntu/nvm/versions/node/4.4.7/lib/node_modules
+    - ~/terminus
+
+  pre:
+
+    # Install gulp
+    - echo Installing gulp globally
+    - npm install -g gulp
+
+    # Install Terminus
+    - ./bin/install_terminus.sh
+
+  override:
+    - ./bin/drupal-auto-update.sh
+
+test:
+  override:
+    - ls
