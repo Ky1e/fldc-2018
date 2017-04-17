@@ -53,7 +53,7 @@ then
 else
     # update Drupal modules
     echo -e "\nUpdating Drupal modules on the ${MULTIDEV} multidev..."
-    terminus drush $SITE_UUID.$MULTIDEV -- drush up
+    terminus drush $SITE_UUID.$MULTIDEV -- pm-update drupal
 
     # wake the site environment before committing code
     echo -e "\nWaking the ${MULTIDEV} multidev..."
@@ -83,7 +83,7 @@ else
 
     # ping the multidev environment to wake it from sleep
     echo -e "\nPinging the ${MULTIDEV} multidev environment to wake it from sleep..."
-    curl -I http://$MULTIDEV-florida-conference.pantheonsite.io
+    curl -I http://$MULTIDEV-fldc-2018.pantheonsite.io
 
     # backstop visual regression
     echo -e "\nRunning BackstopJS tests..."
@@ -117,18 +117,10 @@ else
         # merge the multidev back to dev
         echo -e "\nMerging the ${MULTIDEV} multidev back into the dev environment (master)..."
         terminus connection:set $SITE_UUID.dev git
-
-        # update Drupal database on dev
-        echo -e "\nUpdating the database on the dev environment..."
-        terminus drush $SITE_UUID.dev -- pm-update drupal
         
         # deploy to test
         echo -e "\nDeploying the updates from dev to test..."
         terminus env:deploy $SITE_UUID.test --sync-content --cc --note="Auto deploy of Drupal updates (core, modules)"
-
-        # update Drupal database on test
-        echo -e "\nUpdating the database on the test environment..."
-        terminus drush $SITE_UUID.test -- pm-update drupal
 
         # backup the live site
         echo -e "\nBacking up the live environment..."
