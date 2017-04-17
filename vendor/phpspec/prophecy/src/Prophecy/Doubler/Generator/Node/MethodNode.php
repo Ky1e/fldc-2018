@@ -26,7 +26,6 @@ class MethodNode
     private $static = false;
     private $returnsReference = false;
     private $returnType;
-    private $nullableReturnType = false;
 
     /**
      * @var ArgumentNode[]
@@ -123,8 +122,6 @@ class MethodNode
             case 'bool':
             case 'array':
             case 'callable':
-            case 'iterable':
-            case 'void':
                 $this->returnType = $type;
                 break;
 
@@ -152,22 +149,6 @@ class MethodNode
     }
 
     /**
-     * @param bool $bool
-     */
-    public function setNullableReturnType($bool = true)
-    {
-        $this->nullableReturnType = (bool) $bool;
-    }
-
-    /**
-     * @return bool
-     */
-    public function hasNullableReturnType()
-    {
-        return $this->nullableReturnType;
-    }
-
-    /**
      * @param string $code
      */
     public function setCode($code)
@@ -189,19 +170,8 @@ class MethodNode
     {
         $this->code = sprintf(
             'return parent::%s(%s);', $this->getName(), implode(', ',
-                array_map(array($this, 'generateArgument'), $this->arguments)
+                array_map(function (ArgumentNode $arg) { return '$'.$arg->getName(); }, $this->arguments)
             )
         );
-    }
-
-    private function generateArgument(ArgumentNode $arg)
-    {
-        $argument = '$'.$arg->getName();
-
-        if ($arg->isVariadic()) {
-            $argument = '...'.$argument;
-        }
-
-        return $argument;
     }
 }

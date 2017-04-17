@@ -36,13 +36,8 @@ class Twig_Compiler implements Twig_CompilerInterface
         $this->env = $env;
     }
 
-    /**
-     * @deprecated since 1.25 (to be removed in 2.0)
-     */
     public function getFilename()
     {
-        @trigger_error(sprintf('The %s() method is deprecated since version 1.25 and will be removed in 2.0.', __FUNCTION__), E_USER_DEPRECATED);
-
         return $this->filename;
     }
 
@@ -85,9 +80,6 @@ class Twig_Compiler implements Twig_CompilerInterface
         $this->indentation = $indentation;
 
         if ($node instanceof Twig_Node_Module) {
-            $node->setFilename($node->getAttribute('filename'));
-
-            // to be removed in 2.0
             $this->filename = $node->getAttribute('filename');
         }
 

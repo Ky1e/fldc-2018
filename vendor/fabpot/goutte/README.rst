@@ -45,24 +45,16 @@ Make requests with the ``request()`` method:
 .. code-block:: php
 
     // Go to the symfony.com website
-    $crawler = $client->request('GET', 'https://www.symfony.com/blog/');
+    $crawler = $client->request('GET', 'http://www.symfony.com/blog/');
 
 The method returns a ``Crawler`` object
 (``Symfony\Component\DomCrawler\Crawler``).
 
-To use your own Guzzle settings, you may create and pass a new Guzzle 6
-instance to Goutte. For example, to add a 60 second request timeout:
+Fine-tune cURL options:
 
 .. code-block:: php
 
-    use Goutte\Client;
-    use GuzzleHttp\Client as GuzzleClient;
-    
-    $goutteClient = new Client();
-    $guzzleClient = new GuzzleClient(array(
-        'timeout' => 60,
-    ));
-    $goutteClient->setClient($guzzleClient);
+    $client->getClient()->setDefaultOption('config/curl/'.CURLOPT_TIMEOUT, 60);
 
 Click on links:
 
@@ -85,7 +77,7 @@ Submit forms:
 
 .. code-block:: php
 
-    $crawler = $client->request('GET', 'https://github.com/');
+    $crawler = $client->request('GET', 'http://github.com/');
     $crawler = $client->click($crawler->selectLink('Sign in')->link());
     $form = $crawler->selectButton('Sign in')->form();
     $crawler = $client->submit($form, array('login' => 'fabpot', 'password' => 'xxxxxx'));
@@ -96,8 +88,9 @@ Submit forms:
 More Information
 ----------------
 
-Read the documentation of the `BrowserKit`_ and `DomCrawler`_ Symfony
-Components for more information about what you can do with Goutte.
+Read the documentation of the BrowserKit and `DomCrawler
+<http://symfony.com/doc/any/components/dom_crawler.html>`_ Symfony Components
+for more information about what you can do with Goutte.
 
 Pronunciation
 -------------
@@ -109,7 +102,7 @@ Technical Information
 
 Goutte is a thin wrapper around the following fine PHP libraries:
 
-* Symfony Components: `BrowserKit`_, `CssSelector`_ and `DomCrawler`_;
+* Symfony Components: BrowserKit, CssSelector and DomCrawler;
 
 *  `Guzzle`_ HTTP Component.
 
@@ -118,8 +111,5 @@ License
 
 Goutte is licensed under the MIT license.
 
-.. _`Composer`: https://getcomposer.org
-.. _`Guzzle`: http://docs.guzzlephp.org
-.. _`BrowserKit`: https://symfony.com/components/BrowserKit
-.. _`DomCrawler`: https://symfony.com/doc/current/components/dom_crawler.html
-.. _`CssSelector`: https://symfony.com/doc/current/components/css_selector.html
+.. _`Composer`: http://getcomposer.org
+.. _`Guzzle`:   http://docs.guzzlephp.org

@@ -31,7 +31,7 @@ class Twig_Node_Embed extends Twig_Node_Include
             ->write('$this->loadTemplate(')
             ->string($this->getAttribute('filename'))
             ->raw(', ')
-            ->repr($this->getFilename())
+            ->repr($compiler->getFilename())
             ->raw(', ')
             ->repr($this->getLine())
             ->raw(', ')
