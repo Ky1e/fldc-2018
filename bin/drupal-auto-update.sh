@@ -53,7 +53,7 @@ then
 else
     # update Drupal modules
     echo -e "\nUpdating Drupal modules on the ${MULTIDEV} multidev..."
-    terminus drush $SITE_UUID.$MULTIDEV -- plugin update --all
+    terminus drush $SITE_UUID.$MULTIDEV -- drush up
 
     # wake the site environment before committing code
     echo -e "\nWaking the ${MULTIDEV} multidev..."
@@ -120,15 +120,15 @@ else
 
         # update Drupal database on dev
         echo -e "\nUpdating the database on the dev environment..."
-        terminus drush $SITE_UUID.dev -- core update-db
-
+        terminus drush $SITE_UUID.dev -- pm-update drupal
+        
         # deploy to test
         echo -e "\nDeploying the updates from dev to test..."
         terminus env:deploy $SITE_UUID.test --sync-content --cc --note="Auto deploy of Drupal updates (core, modules)"
 
         # update Drupal database on test
         echo -e "\nUpdating the database on the test environment..."
-        terminus drush $SITE_UUID.test -- core update-db
+        terminus drush $SITE_UUID.test -- pm-update drupal
 
         # backup the live site
         echo -e "\nBacking up the live environment..."
@@ -140,7 +140,7 @@ else
 
         # update Drupal database on live
         echo -e "\nUpdating the database on the live environment..."
-        terminus drush $SITE_UUID.live -- core update-db
+        terminus drush $SITE_UUID.live -- pm-update drupal
 
         echo -e "\nVisual regression tests passed! Drupal updates deployed to live..."
         SLACK_MESSAGE="I've updated ${CIRCLE_PROJECT_REPONAME} on build #${CIRCLE_BUILD_NUM} and the visual regression tests passed! Drupal updates deployed to <https://dashboard.pantheon.io/sites/${SITE_UUID}#live/deploys|the live environment>."
