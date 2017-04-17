@@ -57,7 +57,7 @@ else
 
     # wake the site environment before committing code
     echo -e "\nWaking the ${MULTIDEV} multidev..."
-    terminus $SITE_UUID.$MULTIDEV env:wake
+    curl -I http://$MULTIDEV-fldc-2018.pantheonsite.io
 
     # committing updated Drupal modules
     echo -e "\nCommitting Drupal modules updates on the ${MULTIDEV} multidev..."
