@@ -35,7 +35,7 @@ else
     terminus upstream:updates:apply $SITE_UUID.$MULTIDEV --yes --updatedb --accept-upstream
     UPDATES_APPLIED=true
 
-    terminus drush $SITE_UUID.$MULTIDEV -- core update-db
+    terminus drush $SITE_UUID.$MULTIDEV -- pm-update drupal
 fi
 
 # making sure the multidev is in SFTP mode
